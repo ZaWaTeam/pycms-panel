@@ -21,8 +21,6 @@ const isPasswordVisible = ref(false)
 const email = ref('admin@demo.com')
 const password = ref('admin')
 const rememberMe = ref(false)
-
-
 </script>
 
 <template>
@@ -34,7 +32,6 @@ const rememberMe = ref(false)
       lg="8"
       class="d-none d-lg-flex"
     >
-    
       <div class="position-relative auth-bg rounded-lg w-100 ma-8 me-0">
         <div class="d-flex align-center justify-center w-100 h-100">
           <VImg
