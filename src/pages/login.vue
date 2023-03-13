@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useGenerateImageVariant } from '@core/composable/useGenerateImageVariant'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
@@ -11,16 +10,45 @@ import authV2LoginIllustrationDark from '@images/pages/auth-v2-login-illustratio
 import authV2LoginIllustrationLight from '@images/pages/auth-v2-login-illustration-light.png'
 import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
+import { useStore } from 'vuex'
+
+/* Definitions & Declarations */
+const store = useStore();
+/* Definitions & Declarations */
+
 
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
+/* Datas */
 const isPasswordVisible = ref(false)
+const authError = ref(false);
 
-const email = ref('admin@demo.com')
-const password = ref('admin')
-const rememberMe = ref(false)
+const username = ref('');
+const password = ref('');
+const rememberMe = ref(false);
+
+
+
+/* Methods */
+const login = () => {
+    store.dispatch("login", {
+        username: username.value,
+        password: password.value,
+    }).then(res => {
+        authError.value = false;
+    }).catch(error => {
+        authError.value = true;
+    })
+};
+const authenticationValidator = () => {
+    if (!authError.value) {
+        return true;
+    }
+
+    return "Incorrect user credentials";
+}
 </script>
 
 <template>
@@ -72,28 +100,16 @@ const rememberMe = ref(false)
           </p>
         </VCardText>
         <VCardText>
-          <VAlert
-            color="primary"
-            variant="tonal"
-          >
-            <p class="text-caption mb-2">
-              Admin Email: <strong>admin@demo.com</strong> / Pass: <strong>admin</strong>
-            </p>
-            <p class="text-caption mb-0">
-              Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
-            </p>
-          </VAlert>
-        </VCardText>
-        <VCardText>
-          <VForm @submit.prevent="() => {}">
+          <VForm @submit.prevent="login()">
             <VRow>
               <!-- email -->
               <VCol cols="12">
                 <VTextField
-                  v-model="email"
-                  label="Email"
-                  type="email"
-                  :rules="[requiredValidator, emailValidator]"
+                  v-model="username"
+                  @input="authError = false"
+                  label="Username"
+                  type="text"
+                  :rules="[requiredValidator, authenticationValidator]"
                 />
               </VCol>
 
@@ -102,7 +118,7 @@ const rememberMe = ref(false)
                 <VTextField
                   v-model="password"
                   label="Password"
-                  :rules="[requiredValidator]"
+                  :rules="[requiredValidator, authenticationValidator]"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
@@ -129,35 +145,6 @@ const rememberMe = ref(false)
                 </VBtn>
               </VCol>
 
-              <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <span>New on our platform?</span>
-                <a
-                  class="text-primary ms-2"
-                  href="#"
-                >
-                  Create an account
-                </a>
-              </VCol>
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider />
-                <span class="mx-4">or</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
-              </VCol>
             </VRow>
           </VForm>
         </VCardText>
@@ -171,6 +158,7 @@ const rememberMe = ref(false)
 </style>
 
 <route lang="yaml">
+name: Authentication
 meta:
   layout: blank
   action: read
