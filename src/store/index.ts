@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { authStore } from './auth'
+import DashStore from "@/store/dashboard/dashboard";
 
 export default createStore({
   state: {
@@ -10,5 +11,6 @@ export default createStore({
   },
   modules: {
     auth: authStore,
+    dashboard:DashStore
   }
 })
