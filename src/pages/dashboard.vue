@@ -4,9 +4,10 @@
 </VCard>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: "dashboard"
+  name: "dashboard",
+
 }
 </script>
 
