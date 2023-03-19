@@ -1,0 +1,24 @@
+- Dashboard
+- News
+  - Posts
+    - Posts List
+    - New Post
+    - Marking
+  - Categories
+    - All Categories
+    - New Category
+- Appearance
+  - Pages
+    - Pages List
+    - New Page
+  - Theme
+    - Themes Store
+    - My Themes
+    - New Theme
+    - Theme Editor
+- System
+  - Plugins
+    - Plugins List
+    - Plugins Store
+    - New Plugin
+  - Settings

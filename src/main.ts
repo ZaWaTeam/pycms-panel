@@ -11,6 +11,7 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import store from './store'
 
+
 loadFonts()
 
 // Create vue app
@@ -21,7 +22,6 @@ app.use(vuetify)
 app.use(createPinia())
 app.use(router)
 app.use(layoutsPlugin)
-
 
 // Mount vue app
 app.mount('#app')
