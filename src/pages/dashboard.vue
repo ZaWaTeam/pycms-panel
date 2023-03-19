@@ -25,7 +25,15 @@ export default {
 
     function drop(event) {
       const text = event.dataTransfer.getData("text/plain");
-      canvasComponents.value.push({ text });
+
+      // Check if the element already exists in the canvasComponents array
+      const elementExists = canvasComponents.value.some(component => component.text === text);
+
+      if (elementExists) {
+        alert('Element already exists in the canvas area!');
+      } else {
+        canvasComponents.value.push({ text });
+      }
     }
 
     return { canvasComponents, drop };
