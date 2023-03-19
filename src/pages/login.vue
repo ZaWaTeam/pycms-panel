@@ -14,6 +14,7 @@ import { useStore } from 'vuex'
 
 /* Definitions & Declarations */
 const store = useStore();
+const router = useRouter();
 /* Definitions & Declarations */
 
 
@@ -23,12 +24,12 @@ const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 
 /* Datas */
 const isPasswordVisible = ref(false)
-const authError = ref(false);
 
 const username = ref('');
 const password = ref('');
 const rememberMe = ref(false);
 
+const authError = ref(false);
 
 
 /* Methods */
@@ -38,6 +39,7 @@ const login = () => {
         password: password.value,
     }).then(res => {
         authError.value = false;
+        router.push("/");
     }).catch(error => {
         authError.value = true;
     })
