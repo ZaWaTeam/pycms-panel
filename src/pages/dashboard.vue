@@ -4,7 +4,10 @@
 </VCard>
 </template>
 
-<script lang="ts">
+<script>
+import { ref } from 'vue';
+import VCardMovable from '../components/VCardMovable.vue';
+
 export default {
   name: "dashboard",
 
