@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import axios from 'axios';
+import axiosIns from '@/plugins/axios';
 
 // @ts-ignore
 const DashStore = {
@@ -22,7 +22,7 @@ const DashStore = {
   actions: {
     async fetchSystemInfo({ commit }) {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/sysinfo');
+        const response = await axiosIns.get('api/admin/sysinfo');
         const { used, total } = response.data.memory;
         const cpuUsage = response.data.cpu;
         commit('setMemoryUsed', used);
