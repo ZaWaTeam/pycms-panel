@@ -1,0 +1,27 @@
+<!-- First Variant -->
+@if (buttonLink != "") {
+    <a href="[buttonLink]"><button>[content]</button></a>
+}
+
+<!-- Second Variant -->
+@if (buttonLink) {
+    <a href="[buttonLink]"><button>[content]</button></a>
+}
+
+<!-- Other abilities -->
+@if (buttonLink) {
+    <a href="[buttonLink]"><button>[content]</button></a>
+}
+@else {
+    <button>[content]</button>
+}
+
+@if (buttonLink && has(buttonLink, "http://")) {
+    <a href="[buttonLink]"><button>[content]</button></a>
+}
+@elseif (buttonLink && has(buttonLink, "https://")) {
+    <a href="[buttonLink]"><button>[content]</button></a>
+}
+@else {
+    <button>[content]</button>
+}
