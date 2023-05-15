@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     submitPost() {
-      // Send `this.post` to your API
+      this.$store.dispatch('submitPost', this.post);
     },
     handleFileUpload(event) {
       this.post.thumbnails = Array.from(event.target.files)
@@ -99,6 +99,7 @@ export default {
       // Add your logic here for moving to trash
       console.log("Item moved to trash")
     },
+
   },
   mounted() {
     this.categories = [{
