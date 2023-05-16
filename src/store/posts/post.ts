@@ -14,15 +14,24 @@ const mutations: MutationTree<IPostState> = {
 }
 
 const actions: ActionTree<IPostState, any> = {
+  definePost({ commit }): Promise<AxiosResponse> {
+    return new Promise((resolve, reject) => {
+      axiosIns.get(`/api/admin/post`).then(res => {
+        commit("SETPOST", res.data as IPost)
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
   submitPost({ commit }, payload: IPost): Promise<AxiosResponse> {
     return new Promise((resolve, reject) => {
-      // Transform post data to FormData for multipart/form-data submission
       let dataForm = new FormData()
       for (let key in payload) {
         dataForm.append(key, payload[key])
       }
 
-      axiosIns.post(`http://127.0.0.1:5000/api/admin/new_post`, dataForm).then(res => {
+      axiosIns.post(`/api/admin/new_post`, dataForm).then(res => {
         commit("SETPOST", res.data as IPost)
         resolve(res)
       }).catch(err => {

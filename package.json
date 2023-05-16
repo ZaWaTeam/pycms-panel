@@ -14,18 +14,13 @@
     "@casl/vue": "^2.2.0",
     "@floating-ui/dom": "1.0.4",
     "@tabler/icons": "^1.97.0",
-
     "@vue/reactivity": "^3.2.47",
-
     "@vueup/vue-quill": "^1.1.1",
-
     "@vueuse/core": "^9.5.0",
     "@vueuse/math": "^9.5.0",
-
     "@vueuse/motion": "^2.0.0-beta.12",
-
+    "@webzlodimir/vue-avatar": "^0.0.8",
     "ace-builds": "^1.16.0",
-
     "apexcharts-clevision": "^3.28.5",
     "axios": "1.1.2",
     "axios-mock-adapter": "^1.21.2",
@@ -37,34 +32,21 @@
     "roboto-fontface": "^0.10.0",
     "sass": "^1.56.1",
     "unplugin-vue-define-options": "^0.12.8",
-
     "verte": "^0.0.12",
-
     "verte-vue3": "^1.0.1",
-
     "vue": "^3.2.45",
     "vue-chartjs": "^4.1.1",
-
     "vue-draggable-next": "^2.1.1",
-
     "vue-flatpickr-component": "11.0.1",
     "vue-i18n": "^9.2.2",
-
     "vue-native-color-picker": "^1.2.0",
-
     "vue-prism-component": "^2.0.0",
     "vue-router": "^4.1.5",
-
     "vue3-ace-editor": "^2.2.2",
-
     "vue3-apexcharts": "^1.4.1",
-
     "vue3-colorpicker": "^2.1.2",
-
     "vue3-draggable": "^2.0.9",
-
     "vue3-perfect-scrollbar": "^1.6.0",
-
     "vuetify": "3.0.3",
     "vuex": "^4.1.0",
     "webfontloader": "^1.6.28"
@@ -106,9 +88,7 @@
     "unplugin-auto-import": "^0.11.4",
     "unplugin-vue-components": "^0.22.9",
     "vite": "^3.2.4",
-
     "vite-plugin-alias": "^0.0.6",
-
     "vite-plugin-pages": "^0.27.1",
     "vite-plugin-vue-layouts": "^0.7.0",
     "vite-plugin-vuetify": "1.0.0",

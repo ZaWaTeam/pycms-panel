@@ -13,54 +13,52 @@
         </div>
         <div class="right-column">
 
-          <v-card title="Publish" class="vcard" @click="expanded = !expanded">
-            <v-divider></v-divider>
-            <v-card-title>
-              {{ name }}
-            </v-card-title>
-            <v-expand-transition>
-              <v-card-text v-show="expanded">
-                <label>
-                  <input type="file" @change="handleFileUpload" multiple class="input-field"/>
-                </label>
-                <label>
-                  Is Editor
-                  <input type="checkbox" v-model="post.is_editor" class="input-field"/>
-                </label>
-                <label>
-                  Slug
-                  <input v-model="post.slug" placeholder="Slug" class="input-field" required/>
-                </label>
-                <label>
-                  Category
-                  <select v-model="post.category" class="input-field">
-                    <option v-for="category in categories" :key="category.id" :value="category.id">{{
-                        category.name
-                      }}
-                    </option>
-                  </select>
-                </label>
-                <!-- Add more fields as needed -->
-              </v-card-text>
-            </v-expand-transition>
-          </v-card>
+          <VCard title="Publish">
+            <label>
+              <input type="file" @change="handleFileUpload" multiple class="input-field"/>
+            </label>
+            <AppSelect
+              :items="items"
+              label="Standard"
+            />
+            <label>
+              Is Editor
+              <input type="checkbox" v-model="post.is_editor" class="input-field"/>
+            </label>
+            <label>
+              Slug
+              <input v-model="post.slug" placeholder="Slug" class="input-field" required/>
+            </label>
+            <label>
+              Category
+              <select v-model="post.category" class="input-field">
+                <option v-for="category in categories" :key="category.id" :value="category.id">{{
+                    category.name
+                  }}
+                </option>
+              </select>
+            </label>
+
+          </VCard>
           <!-- Continue for all fields -->
           <button type="submit" class="submit-button">Submit</button>
           <button type="button" class="move-to-trash-button">Move to Trash</button>
+          {{items}}
         </div>
       </form>
     </div>
   </v-card>
-
 </template>
 
 <script>
 import { createApp } from 'vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { useStore } from 'vuex' // Import Vuex Hook
 
 const app = createApp()
 app.component('QuillEditor', QuillEditor)
+
 export default {
   data() {
     return {
@@ -86,31 +84,40 @@ export default {
       },
       categories: [], // This could come from your API
       expanded: false,
+      selected: [],
     }
   },
-  methods: {
-    submitPost() {
-      this.$store.dispatch('submitPost', this.post);
-    },
-    handleFileUpload(event) {
-      this.post.thumbnails = Array.from(event.target.files)
-    },
-    moveToTrash() {
-      // Add your logic here for moving to trash
-      console.log("Item moved to trash")
-    },
 
-  },
   mounted() {
-    this.categories = [{
-      id: 1,
-      name: "a",
-    }, {
-      id: 2,
-      name: "b",
-    }]
+    const store = useStore()
+    store.dispatch('fetchGroups').then(() => {
+      this.items = store.state.groups
+    })
+    this.isDialogVisible = false
+    this.groups = []
+    this.selectedItems = []
   },
+  setup() {
+    const store = useStore()
 
+    onMounted(async () => {
+      await store.dispatch('fetchGroups')
+      items.value = store.state.groups
+    })
+
+    const submitPost = () => {
+      store.dispatch('submitPost', post.value)
+    }
+
+    const handleFileUpload = (event) => {
+      post.value.thumbnails = Array.from(event.target.files)
+    }
+    return {
+      submitPost,
+      handleFileUpload,
+      // Your other data and methods...
+    }
+  },
 }
 </script>
 

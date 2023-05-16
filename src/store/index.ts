@@ -1,3 +1,4 @@
+import { groupStore } from "@/store/groups/group"
 import { createStore } from 'vuex'
 import { authStore } from './auth'
 import { postStore } from './posts/post'
@@ -13,6 +14,7 @@ export default createStore({
   modules: {
     auth: authStore,
     dashboard:DashStore,
-    posts: postStore
+    posts: postStore,
+    groups: groupStore,
   }
 })

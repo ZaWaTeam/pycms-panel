@@ -23,7 +23,8 @@ const mutations: MutationTree<IAuthState> = {
 const actions: ActionTree<IAuthState, any> = {
   defineUser({ commit }): Promise<AxiosResponse> {
     return new Promise((resolve, reject) => {
-      axiosIns.get(`api/admin/user`).then(res => {
+      console.log(process.env.VUE_APP_FLASK_API_URL)
+      axiosIns.get(`/api/admin/user`).then(res => {
         commit("SETUSER", res.data as IUserCredentials)
         resolve(res)
       }).catch(err => {
@@ -38,7 +39,7 @@ const actions: ActionTree<IAuthState, any> = {
       dataForm.append("username", payload.username)
       dataForm.append("password", payload.password)
 
-      axiosIns.post(`api/admin/login`, dataForm).then(res => {
+      axiosIns.post(`/api/admin/login`, dataForm).then(res => {
         commit("SETAUTHENTICATION", res.data as IUserCredentials)
         resolve(res)
       }).catch(err => {
