@@ -40,7 +40,6 @@
             </label>
 
           </VCard>
-          <!-- Continue for all fields -->
           <button type="submit" class="submit-button">Submit</button>
           <button type="button" class="move-to-trash-button">Move to Trash</button>
           {{items}}
@@ -51,10 +50,10 @@
 </template>
 
 <script>
-import { createApp } from 'vue'
+import { createApp, onMounted, ref } from 'vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { useStore } from 'vuex' // Import Vuex Hook
+import { useStore } from 'vuex'
 
 const app = createApp()
 app.component('QuillEditor', QuillEditor)
@@ -82,23 +81,15 @@ export default {
         created_at: null,
         updated_at: null,
       },
-      categories: [], // This could come from your API
+      categories: [],
       expanded: false,
       selected: [],
     }
   },
 
-  mounted() {
-    const store = useStore()
-    store.dispatch('fetchGroups').then(() => {
-      this.items = store.state.groups
-    })
-    this.isDialogVisible = false
-    this.groups = []
-    this.selectedItems = []
-  },
   setup() {
     const store = useStore()
+    const items = ref([])
 
     onMounted(async () => {
       await store.dispatch('fetchGroups')
@@ -113,9 +104,9 @@ export default {
       post.value.thumbnails = Array.from(event.target.files)
     }
     return {
+      items,
       submitPost,
       handleFileUpload,
-      // Your other data and methods...
     }
   },
 }
