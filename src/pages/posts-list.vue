@@ -1,48 +1,45 @@
 <template>
   <v-card title="Add New Post" height="80vh">
-    <div class="post-form">
-      <form @submit.prevent="submitPost" class="form-container">
-        <div class="left-column">
+    <div class="post-form-container">
+      <form @submit.prevent="submitNewPost" class="form-container">
+        <div class="left-form-column">
           <label>
-            <input v-model="post.title" placeholder="Enter title here" class="input-field" required/>
+            <input v-model="newPost.title" placeholder="Enter title here" class="form-input-field" required/>
           </label>
           <label>
             Content
-            <QuillEditor theme="snow" v-model="post.content" class="input-field quill-height" required/>
+            <QuillEditor theme="snow" v-model="newPost.content" class="form-input-field quill-editor-height" required/>
           </label>
         </div>
-        <div class="right-column">
-
+        <div class="right-form-column">
           <VCard title="Publish">
             <label>
-              <input type="file" @change="handleFileUpload" multiple class="input-field"/>
+              <input type="file" @change="uploadFiles" multiple class="form-input-field"/>
             </label>
             <AppSelect
-              :items="items"
+              :items="groupItems"
               label="Standard"
             />
             <label>
               Is Editor
-              <input type="checkbox" v-model="post.is_editor" class="input-field"/>
+              <input type="checkbox" v-model="newPost.is_editor" class="form-input-field"/>
             </label>
             <label>
               Slug
-              <input v-model="post.slug" placeholder="Slug" class="input-field" required/>
+              <input v-model="newPost.slug" placeholder="Slug" class="form-input-field" required/>
             </label>
             <label>
               Category
-              <select v-model="post.category" class="input-field">
-                <option v-for="category in categories" :key="category.id" :value="category.id">{{
-                    category.name
-                  }}
+              <select v-model="newPost.category" class="form-input-field">
+                <option v-for="category in postCategories" :key="category.id" :value="category.id">
+                  {{ category.name }}
                 </option>
               </select>
             </label>
-
           </VCard>
           <button type="submit" class="submit-button">Submit</button>
           <button type="button" class="move-to-trash-button">Move to Trash</button>
-          {{items}}
+          {{ groupItems }}
         </div>
       </form>
     </div>
@@ -61,7 +58,7 @@ app.component('QuillEditor', QuillEditor)
 export default {
   data() {
     return {
-      post: {
+      newPost: {
         id: null,
         title: '',
         content: '',
@@ -81,7 +78,7 @@ export default {
         created_at: null,
         updated_at: null,
       },
-      categories: [],
+      postCategories: [],
       expanded: false,
       selected: [],
     }
@@ -89,24 +86,24 @@ export default {
 
   setup() {
     const store = useStore()
-    const items = ref([])
+    const groupItems = ref([])
 
     onMounted(async () => {
       await store.dispatch('fetchGroups')
-      items.value = store.state.groups
+      groupItems.value = store.state.groups
     })
 
-    const submitPost = () => {
-      store.dispatch('submitPost', post.value)
+    const submitNewPost = () => {
+      store.dispatch('submitPost', newPost.value)
     }
 
-    const handleFileUpload = (event) => {
-      post.value.thumbnails = Array.from(event.target.files)
+    const uploadFiles = (event) => {
+      newPost.value.thumbnails = Array.from(event.target.files)
     }
     return {
-      items,
-      submitPost,
-      handleFileUpload,
+      groupItems,
+      submitNewPost,
+      uploadFiles,
     }
   },
 }
@@ -117,18 +114,17 @@ export default {
   display: flex;
 }
 
-.left-column {
+.left-form-column {
   flex: 2;
-  padding: 0px 24px 24px 24px; /* top right bottom left */
+  padding: 0px 24px 24px 24px;
 }
 
-.right-column {
+.right-form-column {
   flex: 1;
-  padding: 0px 24px 24px 24px; /* top right bottom left */
+  padding: 0px 24px 24px 24px;
 }
 
-
-.input-field {
+.form-input-field {
   display: block;
   padding: 10px;
   margin: 0px 0;
@@ -136,11 +132,10 @@ export default {
   border-radius: 2px;
   box-sizing: border-box;
   width: 100%;
-
 }
 
-.quill-height {
-  height: calc(100vh - 150px); /* Adjust based on your requirements */
+.quill-editor-height {
+  height: calc(100vh - 150px);
 }
 
 .submit-button {
